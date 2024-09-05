@@ -1,0 +1,23 @@
+{
+  "name": "clase-02",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev:1": "nodemon 01.http.js",
+    "dev:2": "nodemon 02.routing.js",
+    "dev:3": "node --watch 03.express.js"
+  },
+  "author": "jmv",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.1.4",
+    "standard": "^17.1.0"
+  },
+  "eslintConfig": {
+    "extends": "standard"
+  },
+  "dependencies": {
+    "express": "4.19.2"
+  }
+}
