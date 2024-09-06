@@ -1,11 +1,12 @@
 const express = require('express')
-const crypto = require('node:crypto')
+
 
 const app = express()
 app.disable('x-powered-by')
 app.use(express.json())
 
 const movies = require('./movies.json')
+const { validateMovie } = require('./schemas/movies')
 
 //Todos los recursos que sean movies, se identifican con esta URL /movies
 app.get('/movies',(req,res)=>{
@@ -29,25 +30,16 @@ app.get('/movies/:id',(req,res)=>{
 })
 
 app.post('/movies', (req, res)=>{
-    const {
-    title,
-    year,
-    director,
-    duratio,
-    poster,
-    genre,
-    rate,
-    } = req.body
+    
+    const result = validateMovie(req.body)
+
+    if (result.error){
+        res.status(400).json({error: JSON.parse(result.error.message)})
+    }
 
     const newMovie = {
         id: crypto.randomUUID(), //Crea uuid v4
-        title,
-        year,
-        director,
-        duratio,
-        poster,
-        genre,
-        rate: rate ?? 0,
+        ...result.data
     }
 
     //Esto no sería REST al estar guardando información en el servidor. Más adelante iremos a la base de datos
