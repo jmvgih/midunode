@@ -7,7 +7,7 @@ GET http://localhost:1234/movies/c8a7d63f-3b04-44d3-9d95-8782fd7dcfaf
 ### Recuperar películas por género
 GET http://localhost:1234/movies?genre=action
 
-### Crear una pelicola con POST
+### Crear una pelicula con POST
 POST http://localhost:1234/movies
 Content-Type: application/json
 
@@ -19,3 +19,11 @@ Content-Type: application/json
     "poster": "https://diariodeunacinefila.wordpress.com/wp-content/uploads/2011/09/poster-de-el-padrino.jpg",
     "genre": ["Drama", "Crime"]
   }
+
+### Actualizar una película con PATCH
+PATCH  http://localhost:1234/movies/dcdd0fad-a94c-4810-8acc-5f108d3b18c3
+Content-Type: application/json
+
+{
+    "year": 1995
+}
