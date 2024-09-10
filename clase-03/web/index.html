@@ -26,13 +26,13 @@
             <article data-id="${movie.id}">
               <h2>${movie.title}</h2>
               <image src=${movie.poster} alt="Imagen no disponible"/>
-              <p>${movie.genre}</p>
+              <p>${movie.year}</p>
               <button>Eliminar</button>
             </article>
           `
         }).join('')
         
-        document.querySelector('#parrafo1').innerHTML = html
+        document.querySelector('.main').innerHTML = html
         document.addEventListener('click', e=>{
           if (e.target.matches('button')){
             const article = e.target.closest('article')
@@ -52,7 +52,7 @@
   
   </script>
 </head>
-<body>
+<body class="main">
   <p id="parrafo1">LISTADO DE PELICULAS <p>
 </body>
 </html>

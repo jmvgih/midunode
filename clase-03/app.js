@@ -5,7 +5,7 @@ const crypto = require('node:crypto')
 const app = express()
 app.disable('x-powered-by')
 app.use(express.json())
-// app.use(cors())  soluciona el CORS poniendo * en las cabeceras 
+app.use(cors())  //soluciona el CORS poniendo * en las cabeceras Tiene opciones para limitarlas
 
 const movies = require('./movies.json')
 const { validateMovie } = require('./schemas/movies')
@@ -20,13 +20,7 @@ const ACCEPTED_ORIGINS = [
 
 //Todos los recursos que sean movies, se identifican con esta URL /movies
 app.get('/movies', (req, res) => {
-  const origin = req.header('origin')
-  //Cuando la petición es del mismo origin, no envia header
-  if (ACCEPTED_ORIGINS.includes(origin)){
-    res.header('Access-Control-Allow-Origin', origin)
-  }
-
-  
+ 
   const { genre } = req.query
   if (genre) {
     const filteredMovies = movies.filter(
@@ -67,10 +61,7 @@ app.post('/movies', (req, res) => {
 })
 
 app.delete('/movies/:id', (req, res)  =>{
-  const origin = req.header('origin')
-  if (ACCEPTED_ORIGINS.includes(origin)){
-    res.header('Access-Control-Allow-Origin', origin)
-  }
+
   const {id} = req.params
   const movieIndex = movies.findIndex(movie => movie.id === id)
   if (movieIndex === -1) {
@@ -79,6 +70,7 @@ app.delete('/movies/:id', (req, res)  =>{
 
   movies.splice(movieIndex, 1)
   return res.status(200).json({messgae: 'Movie deleted'})
+
 })
 
 app.patch('/movies/:id', (req, res) => {
@@ -105,14 +97,6 @@ app.patch('/movies/:id', (req, res) => {
 
 })
 
-app.options('/movies/:id', (req,res)=>{  //Hay que usar el verbo Optios cuando se usan métodos complejos (PUT/PATH/DELETE) para evitar error de CORS
-  const origin = req.header('origin')
-  if (ACCEPTED_ORIGINS.includes(origin)){
-    res.header('Access-Control-Allow-Origin', origin)
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATH, DELETE')
-  }
-  res.send(200)
-})
 
 const PORT = process.env.PORT ?? 1234
 
