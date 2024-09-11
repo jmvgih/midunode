@@ -1,22 +1,42 @@
-const express = require('express')
-const cors = require('cors')
-const crypto = require('node:crypto')
+import express, { json } from 'express'
+import cors from 'cors'
+import { randomUUID } from 'node:crypto'
+import {readJson} from './utils/utils.js'
+import { validateMovie, validatePartialMovie } from './schemas/movies.js' 
+
+//import movies from './movies.json' with {type: 'json' } //En módulos with es experimental
+
+//Una alternativa
+//import fs from 'node:fs'
+//const movies = JSON.parse(fs.readFileSync('./movies.json', 'utf-8'))
+
+//Opción recomendada de momento
+const movies = readJson('../movies.json')
 
 const app = express()
 app.disable('x-powered-by')
-app.use(express.json())
-app.use(cors())  //soluciona el CORS poniendo * en las cabeceras Tiene opciones para limitarlas
+app.use(json())
+app.use(cors({
+  origin: (origin, callback) =>{
+    const ACCEPTED_ORIGINS = [
+      'http://localhost:8080',
+      'http://movies.com',
+      'http://jmv.com'
+    ]
+  
+  if (ACCEPTED_ORIGINS.includes(origin)){
+    return callback(null, true)
+  }
+  if (!origin){
+    return callback(null, true)
+  }
+  
+  return callback(new Error('Not allowed by CORS'))
 
-const movies = require('./movies.json')
-const { validateMovie } = require('./schemas/movies')
-const { validatePartialMovie } = require('./schemas/movies')
+  }
+}))  //soluciona el CORS poniendo * en las cabeceras Tiene opciones para limitarlas
 
-const ACCEPTED_ORIGINS = [
-  'http://localhost:8080',
-  'http://movies.com',
-  'http://jmv.com'
 
-]
 
 //Todos los recursos que sean movies, se identifican con esta URL /movies
 app.get('/movies', (req, res) => {
@@ -49,7 +69,7 @@ app.post('/movies', (req, res) => {
   }
 
   const newMovie = {
-    id: crypto.randomUUID(), //Crea uuid v4
+    id: randomUUID(), //Crea uuid v4
     ...result.data
   }
 
