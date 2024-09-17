@@ -1,0 +1,10 @@
+docker pull mysql:8.4.2
+docker run -d --name mysql-dock -e MYSQL_ROOT_PASSWORD=404220.Sql$ -p 3307:3306 mysql:8.4
+docker run \
+   --name mysql-test \
+   -e MYSQL_ROOT_PASSWORD=404220.Sql$ \
+   -p 3307:3306 \
+   -v /etc/docker/test-mysql:/etc/mysql/conf.d \
+   -v mysql-test-data:/var/lib/mysql \
+   -d mysql:8.4
+
