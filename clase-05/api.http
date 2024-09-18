@@ -2,7 +2,7 @@
 GET http://localhost:1234/movies
 
 ### Recuperar película por id
-GET http://localhost:1234/movies/c8a7d63f-3b04-44d3-9d95-8782fd7dcfaf
+GET http://localhost:1234/movies/2b09d88e-751b-11ef-8825-0242ac110002
 
 ### Recuperar películas por género
 GET http://localhost:1234/movies?genre=action
@@ -16,17 +16,19 @@ Content-Type: application/json
     "year": 1975,
     "director": "Francis Ford Coppola",
     "duration": 175,
+    "rate": 9.0,
     "poster": "https://diariodeunacinefila.wordpress.com/wp-content/uploads/2011/09/poster-de-el-padrino.jpg",
     "genre": ["Drama", "Crime"]
+
   }
 
 ### Borrar una película
-DELETE http://localhost:1234/movies/dcdd0fad-a94c-4810-8acc-5f108d3b18c3
+DELETE http://localhost:1234/movies/6e5bab2c-75e6-11ef-a88c-0242ac110002
 
 ### Actualizar una película con PATCH
-PATCH  http://localhost:1234/movies/dcdd0fad-a94c-4810-8acc-5f108d3b18c3
+PATCH  http://localhost:1234/movies/e27e4968-75e7-11ef-a88c-0242ac110002
 Content-Type: application/json
 
 {
-    "year": 1995
+    "year": 1975
 }
